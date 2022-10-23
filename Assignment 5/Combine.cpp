@@ -2,7 +2,7 @@
 #include "Combine.h"
 using namespace std;
 
-Vector<DataPoint> merge(Vector<DataPoint>&part1,Vector<DataPoint>&part2) {
+Vector<DataPoint> merge(Vector<DataPoint>part1,Vector<DataPoint>part2) {
     Vector<DataPoint>ans;
     int size1=part1.size();
     int size2=part2.size();
@@ -16,35 +16,27 @@ Vector<DataPoint> merge(Vector<DataPoint>&part1,Vector<DataPoint>&part2) {
     }
     return ans;
 }
-Vector<DataPoint>mergeSort(Vector<DataPoint>&ans){
-    if(ans.size()==1){
-        return ans;
-    }
-    int len=ans.size();
-    Vector<DataPoint>part1;
-    Vector<DataPoint>part2;
-//    for(int l=0;l<len/2;l++){
-//        part1+=ans[l];
-//    }
-    part1=ans.subList(0,len/2);
-    part2=ans.subList(len/2,len-len/2);
-//    for(int l=len/2;l<len;l++){
-//        part2+=ans[l];
-//    }
-    auto ans1=mergeSort(part1);
-    auto ans2=mergeSort(part2);
-    return merge(ans1,ans2);
-}
+
 Vector<DataPoint> combine(const Vector<Vector<DataPoint>>& sequences) {
     /* TODO: Delete the next few lines and implement this. */
-    Vector<DataPoint>ans;
-    for(int l=0;l<sequences.size();l++){
-        for(DataPoint d:sequences[l]){
-            auto n=d.name;auto w=d.weight;
-            ans+=d;
-        }
+    if(sequences.size()==0){
+        return {};
     }
-    return mergeSort(ans);
+    if(sequences.size()==1){  //说明只有一个序列，直接返回就行
+        return sequences[0];
+    }
+    if(sequences.size()==2){
+        return merge(sequences[0],sequences[1]);
+    }
+    else{
+        int size=sequences.size();
+        auto part1=sequences.subList(0,size/2);
+        auto part2=sequences.subList(size/2,size-size/2);
+        auto ans1=combine(part1);
+        auto ans2=combine(part2);
+        return merge(ans1,ans2);
+    }
+
 }
 
 
