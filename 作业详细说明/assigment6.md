@@ -120,15 +120,15 @@ Let’s insert more values. If we call `hpq.enqueue({"Chioma", 103})` and then `
 
 You’ll implement `HeapPQueue` using a data structure called a **binary heap**, hence the name `HeapPQueue`. Binary heaps are best explained by example. Below is a binary heap containing a collection of current and former TAs, each of whom is associated with a number corresponding to the class that they TAed for.
 
-![A binary heap as described. At the top lies Ashley (D:\desktop\ta_heap-1666667702981.png). There are two branches, one going left and one going right; on the left, we have Kate (106), whose left and right children are Kali (108) and Julia (109), respectively. Kali has a single left child, Luna (161). Back to the top, to Ashley's right, we have Amy (103), whose left and right children are Anna (110) and Reynis (107), respectively.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/ta_heap.png)
+![A binary heap as described. At the top lies Ashley (D:\desktop\cs106B\cs106B\作业详细说明\ta_heap.png). There are two branches, one going left and one going right; on the left, we have Kate (106), whose left and right children are Kali (108) and Julia (109), respectively. Kali has a single left child, Luna (161). Back to the top, to Ashley's right, we have Amy (103), whose left and right children are Anna (110) and Reynis (107), respectively.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/ta_heap.png)
 
 Let's look at the structure of this heap. Each value in the heap is stored in a **node**, and each node has zero, one, or two **child nodes** descending from it. For example, Ashley has two children (Kate and Amy) while Kali has just one child (Luna) and Julia has no children at all.
 
 In a binary heap, we enforce the rule that **every row of the heap, except for the last, must be full**. That is, the first row should have one node, the second row two nodes, the third row four nodes, the fourth row eight nodes, etc., up until the last row. Additionally, that last row must be filled from the left to the right. You can see this in the above example – the first three rows are all filled in, and only the last row is partially filled. Here are two other examples of binary heaps, each of which obey this rule:
 
-![A binary heap of the names of the planets, where the radius of the planet is its priority. Mercury sits at the top, with Neptune and Mars being its children. Neptune has Jupiter and Uranus as its children. Mars has Saturn and Venus as its children. Every row of the heap is filled.](D:\desktop\planet_heap-1666667702966.png)
+![A binary heap of the names of the planets, where the radius of the planet is its priority. Mercury sits at the top, with Neptune and Mars being its children. Neptune has Jupiter and Uranus as its children. Mars has Saturn and Venus as its children. Every row of the heap is filled.](D:\desktop\cs106B\cs106B\作业详细说明\planet_heap.png)
 
-![A binary heap with various names, where the priority is their birth year. Jackie is on top, with Jermaine and Tito as their children. Jermain has Michael and Marlon as children. Tito has no children. The top two rows of the heap are full; the last one is partially filled (D:\desktop\name_heap-1666667702987.png)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/name_heap.png)
+![A binary heap with various names, where the priority is their birth year. Jackie is on top, with Jermaine and Tito as their children. Jermain has Michael and Marlon as children. Tito has no children. The top two rows of the heap are full; the last one is partially filled (D:\desktop\cs106B\cs106B\作业详细说明\name_heap.png)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/name_heap.png)
 
 We also enforce one more property – **no child node’s weight is less than its parent’s weight**. All three of the heaps you've seen so far obey this rule. However, there are no guarantees about how nodes can be ordered within a row; as you can see from the examples, within a row the ordering is pretty much arbitrary.
 
@@ -161,37 +161,37 @@ Maya Ziv, section leader extraordinaire, suggests using [this website](http://as
 
 It is easy to read off which element has the smallest weight in a binary heap – it's the one at the top. It is also efficient to insert an element into a binary heap. Suppose, for example, that we have this binary heap containing some famous satellites:
 
-![A binary heap showing famous satellites, with their associated priority being the year in which it was launched. The satellites are written in the language native to the country they're from. At the top is Sputnik (D:\desktop\satellite_enqueue_1-1666667702987.png), with its left child being Aryabhata (1975) and right child being Ohsumi (1970). Aryabhata also has two children, Ofeq (1988) and Sina (2005).](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_1.png)
+![A binary heap showing famous satellites, with their associated priority being the year in which it was launched. The satellites are written in the language native to the country they're from. At the top is Sputnik (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_1.png), with its left child being Aryabhata (1975) and right child being Ohsumi (1970). Aryabhata also has two children, Ofeq (1988) and Sina (2005).](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_1.png)
 
 Let's add the San Marco, the first Italian satellite, to this heap with weight 1964. Since a binary heap has all rows except the last filled, the only place we can initially place San Marco is in the first available spot in the last row. This is as the left child of Japan’s first space probe 大隅, so we place the new node for San Marco there:
 
-![The heap above has been modified to include San Marco (D:\desktop\satellite_enqueue_2-1666667702987.png) as the left child of Ohsumi (1970)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_2.png)
+![The heap above has been modified to include San Marco (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_2.png) as the left child of Ohsumi (1970)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_2.png)
 
 At this point, the binary heap is invalid because San Marco’s weight (1964) is less than that of 大隅 (1970). To fix this, we run a **bubble-up** step and continuously swap San Marco with its parent node until its weight is at least that of its parent’s. This means that we exchange San Marco and 大隅, shown here:
 
-![The heap above has been modified to swap the positions of San Marco (D:\desktop\satellite_enqueue_3-1666667702987.png) and Ohsumi (1970); now, the right child of Sputnik (1957) is San Marco (1964), and San Marco's left child is Ohsumi (1970)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_3.png)
+![The heap above has been modified to swap the positions of San Marco (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_3.png) and Ohsumi (1970); now, the right child of Sputnik (1957) is San Marco (1964), and San Marco's left child is Ohsumi (1970)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_3.png)
 
 Since San Marco’s weight (1964) is greater than its parent’s weight (1957), it’s now in the right place, and we’re done. We now have a binary heap containing all of the original values, plus San Marco.
 
 Let's suppose that we now want to insert Explorer, the first US space probe, into the heap with weight 1958. We begin by placing it at the next free location in the last row, as the right child of San Marco:
 
-![The heap above has been modified to add Explorer (D:\desktop\satellite_enqueue_4-1666667703389.png) as the right child of San Marco.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_4.png)
+![The heap above has been modified to add Explorer (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_4.png) as the right child of San Marco.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_4.png)
 
 We then bubble Explorer up one level to fix the heap:
 
-![The heap above has been modified to swap the positions of San Marco (D:\desktop\satellite_enqueue_5-1666667703384.png) and Explorer (1958)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_5.png)
+![The heap above has been modified to swap the positions of San Marco (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_5.png) and Explorer (1958)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_5.png)
 
 And, again, have a new heap containing these elements. As a final example, suppose that we want to insert 东方红, the first Chinese space probe, into this heap with weight 1970. We begin by putting it into the first free spot in the last row, which in this case is as the left child of the Israeli satellite אופק:
 
-![The heap above, modified to insert Dong Fang Hong (D:\desktop\satellite_enqueue_6-1666667703388.png) as the left child of Ofeq (1988). The heap is now four rows high (as the third row was filled by adding Explorer).](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_6.png)
+![The heap above, modified to insert Dong Fang Hong (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_6.png) as the left child of Ofeq (1988). The heap is now four rows high (as the third row was filled by adding Explorer).](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_6.png)
 
 We now do a bubble-up step. We first swap 东方红 and אופק to get:
 
-![The heap above has been modified to swap the positions of Dong Fang Hong (D:\desktop\satellite_enqueue_7-1666667703389.png) and Ofeq (1988)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_7.png)
+![The heap above has been modified to swap the positions of Dong Fang Hong (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_7.png) and Ofeq (1988)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_7.png)
 
 Notice that 东方红’s weight is still less than its new parent’s weight, so it’s not yet in the right place. We therefore do another swap, this time with the Indian satellite आर्यभट, to get
 
-![The heap above has been modified to swap the positions of Dong Fang Hong (D:\desktop\satellite_enqueue_8-1666667703387.png) and Aryabhata (1975)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_8.png)
+![The heap above has been modified to swap the positions of Dong Fang Hong (D:\desktop\cs106B\cs106B\作业详细说明\satellite_enqueue_8.png) and Aryabhata (1975)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_enqueue_8.png)
 
 This step runs very quickly. With a bit of math we can show that if there are n nodes in a binary heap, then the height of the heap is at most O(log n), and so we need at most O(log n) swaps to put the new element into its proper place. Thus the enqueue step runs in time O(log n). That’s pretty fast! Remember that the base-2 logarithm of a million is about twenty, so even with a million elements we’d only need about twenty swaps to place things!
 
@@ -219,19 +219,19 @@ There are many binary heaps you can form that contain these elements, but only o
 
 We now know how to insert an element into a binary heap. How do we implement dequeue? We know that the minimum-weight element of the binary heap is atop the heap, but we can't just remove it – that would break the heap into two smaller heaps. Instead, we use a more clever algorithm. First, we swap the top of the heap, the original Soviet satellite Спутник, with the rightmost node in the bottom row of the heap (אופק) as shown here:
 
-![The same heap as before, except now Ofeq (D:\desktop\satellite_dequeue_1-1666667703551.png) is at the root, and Sputnik (1957) is at the bottommost element of the heap (where Ofeq once was).](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_dequeue_1.png)
+![The same heap as before, except now Ofeq (D:\desktop\cs106B\cs106B\作业详细说明\satellite_dequeue_1.png) is at the root, and Sputnik (1957) is at the bottommost element of the heap (where Ofeq once was).](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_dequeue_1.png)
 
 Now, we can remove Спутник from the heap, which is the element we’ll return. We now have this:
 
-![The same heap as before, but Sputnik (D:\desktop\satellite_dequeue_2-1666667703778.png) is removed. The heap now looks like this: Ofeq (1988) at the top, with Dong Fang Hong (1970) and Explorer (1958) its left and right children. Dong Fang Hong (1970) has Aryabhata (1975) and Sina (2005) as its left and right children. Explorer (1958) has Ohsumi (1970) and San Marco (1964) as its left and right children.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_dequeue_2.png)
+![The same heap as before, but Sputnik (D:\desktop\cs106B\cs106B\作业详细说明\satellite_dequeue_2.png) is removed. The heap now looks like this: Ofeq (1988) at the top, with Dong Fang Hong (1970) and Explorer (1958) its left and right children. Dong Fang Hong (1970) has Aryabhata (1975) and Sina (2005) as its left and right children. Explorer (1958) has Ohsumi (1970) and San Marco (1964) as its left and right children.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_dequeue_2.png)
 
 Unfortunately, what we are left with isn’t a binary heap because the top element (אופק) is one of the highest-weight values in the heap. To fix this, we will use a **bubble-down** step and repeatedly swap אופק with its **lower-weight** child until it either has no children or has lower weight than all of its children. First, we swap אופק with Explorer to get this heap:
 
-![The same heap as before, but Explorer and Ofeq swap so Explorer is now the root of the tree.](D:\desktop\satellite_dequeue_3-1666667703787.png)
+![The same heap as before, but Explorer and Ofeq swap so Explorer is now the root of the tree.](D:\desktop\cs106B\cs106B\作业详细说明\satellite_dequeue_3.png)
 
 Since אופק is not at rest yet, we swap it with the smaller of its two children (San Marco) to get this:
 
-![The same heap as before, but San Marco and Ofeq swap.](D:\desktop\satellite_dequeue_4-1666667703788.png)
+![The same heap as before, but San Marco and Ofeq swap.](D:\desktop\cs106B\cs106B\作业详细说明\satellite_dequeue_4.png)
 
 And we're done. That was fast! As with enqueue, this step runs in time O(log n), because we make at most O(log n) swaps. This means that enqueuing n elements into a binary heap and then dequeuing them takes time at most O(n log n). This method of sorting values is called *heapsort*.
 
@@ -245,7 +245,7 @@ To confirm that this makes sense, answer this question in `ShortAnswers.txt`:
 
 How do we represent a binary heap in code? Amazingly, we can implement the binary heap using nothing more than a dynamic array. “An array‽,” you might exclaim. “How is it possible to store that complicated heap structure inside an array‽” The key idea is to number the nodes in the heap from top-to-bottom, left-to-right, starting at 1. For example, we might number the nodes of the previous heap like this:
 
-![The same heap as before. Explorer is at the top labelled "1". Its left and right children, Dong Fang Hong and San Marco, are labelled 2 and 3. Dong Fang Hong's children, Aryabhata and Sina, are labelled 4 and 5. San Marco's children, Ohsumi and Ofeq, are labelled 6 and 7.](D:\desktop\satellite_array_heap_1-1666667703797.png)
+![The same heap as before. Explorer is at the top labelled "1". Its left and right children, Dong Fang Hong and San Marco, are labelled 2 and 3. Dong Fang Hong's children, Aryabhata and Sina, are labelled 4 and 5. San Marco's children, Ohsumi and Ofeq, are labelled 6 and 7.](D:\desktop\cs106B\cs106B\作业详细说明\satellite_array_heap_1.png)
 
 This numbering system has some amazing properties:
 
@@ -256,25 +256,25 @@ You can check this yourself in the above tree. That's pretty cool, isn't it? The
 
 Because our algorithms on binary heaps only require us to navigate from parent to child or child to parent, it's possible to represent binary heap using just an array. Each element will be stored at the index given by the above numbering system. Given an element, we can then do simple arithmetic to determine the indices of its parent or its children. For example, we’d encode the above heap as the following array:
 
-![The same heap as before, with the above numbering system translated to an array that reads, from index 1 to 7: Explorer, Dong Fang Hong, San Marco, Aryabhata, Sina, Ohsumi, Ofeq](D:\desktop\satellite_array_heap_2-1666667703791.png)
+![The same heap as before, with the above numbering system translated to an array that reads, from index 1 to 7: Explorer, Dong Fang Hong, San Marco, Aryabhata, Sina, Ohsumi, Ofeq](D:\desktop\cs106B\cs106B\作业详细说明\satellite_array_heap_2.png)
 
 The enqueue and dequeue algorithms we have developed for binary heaps translate beautifully into algorithms on the array representation. For example, suppose we want to insert Astérix, the first French satellite, into this binary heap with weight 1965. We begin by adding it into the heap, as shown here:
 
-![The same heap as before, with Astérix inserted in the bottom left (D:\desktop\satellite_array_enqueue_1-1666667703941.png). The array now has eight slots, and Astérix is inserted into the new eighth slot.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_enqueue_1.png)
+![The same heap as before, with Astérix inserted in the bottom left (D:\desktop\cs106B\cs106B\作业详细说明\satellite_array_enqueue_1.png). The array now has eight slots, and Astérix is inserted into the new eighth slot.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_enqueue_1.png)
 
 Notice that Astérix is at index 8, which is the last position in the array. This is not a coincidence; whenever you add a node to a binary heap, it always goes at the end of the array. (Do you see why?)
 
 We then bubble Astérix up into its final position by repeatedly comparing it to its parent. Since Astérix is at position 8, its parent (आर्यभट) is at position 4. Since Astérix precedes आर्यभट, we swap them:
 
-![The same heap as before, but Aryabhata and Astérix have switched (D:\desktop\satellite_array_enqueue_2-1666667704171.png). Similarly, in the array, Aryabhata (now at position 8) and Astérix (now at position 4) swapped places.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_enqueue_2.png)
+![The same heap as before, but Aryabhata and Astérix have switched (D:\desktop\cs106B\cs106B\作业详细说明\satellite_array_enqueue_2.png). Similarly, in the array, Aryabhata (now at position 8) and Astérix (now at position 4) swapped places.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_enqueue_2.png)
 
 Astérix’s parent is now at position 2 (东方红), so we swap Astérix and 东方红 to get the final heap:
 
-![The same heap as before, but Dong Fang Hong and Astérix have switched (D:\desktop\satellite_array_enqueue_3-1666667704185.png). Similarly, in the array, Dong Fang Hong (now at position 4) and Astérix (now at position 2) swapped places.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_enqueue_3.png)
+![The same heap as before, but Dong Fang Hong and Astérix have switched (D:\desktop\cs106B\cs106B\作业详细说明\satellite_array_enqueue_3.png). Similarly, in the array, Dong Fang Hong (now at position 4) and Astérix (now at position 2) swapped places.](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_enqueue_3.png)
 
 An important detail to keep in mind when using this representation is the following. In these examples, **the arrays are 1-indexed**, meaning that the first slot in the array is in position 1. However, in C++, **arrays are 0-indexed**, which means that the first slot in the array is at position 0. There are many ways we could address this, but the option we're going to use in this assignment is the following. We'll use C++ arrays as usual, but simply ignore slot 0 in the array. So the array shown above, as encoded as a C++ array, would look like this:
 
-![The final array representation. Slot 0 is marked "unused." Slot 1 holds Explorer (D:\desktop\satellite_array_zero_index-1666667704190.png). Slot 2 holds Asterix (1965). Slot 3 holds San Marco (1960). Slot 4 holds Dong Fang Hong (1970). Slot 5 holds Sinah (2005). Slot 6 holds Osumi (1970). Slot 7 holds Ofeq (1988). Slot 8 holds Aryabhata (1975)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_zero_index.png)
+![The final array representation. Slot 0 is marked "unused." Slot 1 holds Explorer (D:\desktop\cs106B\cs106B\作业详细说明\satellite_array_zero_index.png). Slot 2 holds Asterix (1965). Slot 3 holds San Marco (1960). Slot 4 holds Dong Fang Hong (1970). Slot 5 holds Sinah (2005). Slot 6 holds Osumi (1970). Slot 7 holds Ofeq (1988). Slot 8 holds Aryabhata (1975)](https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1224/assignments/a6/img/satellite_array_zero_index.png)
 
 And, more generally, each of the arrays shown above would have an unused slot zero before them.
 

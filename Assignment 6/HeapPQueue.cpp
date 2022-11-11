@@ -33,10 +33,10 @@ void HeapPQueue::enqueue(const DataPoint& data) {
     if(size()>=allocatedSize-1){ //要减1吗？？？？？？？？？？？
         //开辟空间
            d=new DataPoint[2*allocatedSize];
-           for(int i=1;i<=allocatedSize;i++){
+           for(int i=1;i<=logicalSize;i++){
                d[i]=elems[i];
            }
-           allocatedSize=2*INITIAL_SIZE;
+           allocatedSize=2*allocatedSize;
            delete []elems;
            elems=d;
     }
@@ -57,23 +57,35 @@ void HeapPQueue::enqueue(const DataPoint& data) {
 
 DataPoint HeapPQueue::peek() const {
     /* TODO: Delete the next line and implement this. */
+    if(logicalSize==0)
+        error("this is worng");
     return elems[1];
 }
 
 DataPoint HeapPQueue::dequeue() {
     /* TODO: Delete the next line and implement this. */
+    if(logicalSize==0)
+        error("this is worng");
     auto ans=elems[1];
     swap(elems[1],elems[logicalSize]);
     logicalSize--;
     int index=1;
-    while(2*index+1<=logicalSize){
+    while(1){
         int left=2*index;
         int right=left+1;
-        if(elems[left].weight>=elems[index].weight&&elems[left].weight>=elems[index].weight){
+        if(index>=logicalSize){
+            break;}
+        if(left>logicalSize){
             break;
         }
-        if(elems[left].weight<=elems[index].weight&&elems[left].weight<=elems[index].weight){
-            if(elems[left].weight>elems[right].weight){
+        else if(left==logicalSize){
+            right=left;
+        }
+        if(elems[left].weight>=elems[index].weight&&elems[right].weight>=elems[index].weight){
+            break;
+        }
+        if(elems[left].weight<=elems[index].weight&&elems[right].weight<=elems[index].weight){
+            if(elems[left].weight>=elems[right].weight){
                 swap(elems[right],elems[index]);
                 index=right;
             }
@@ -90,6 +102,7 @@ DataPoint HeapPQueue::dequeue() {
             swap(elems[right],elems[index]);
             index=right;
         }
+
     }
     return ans;
 }
